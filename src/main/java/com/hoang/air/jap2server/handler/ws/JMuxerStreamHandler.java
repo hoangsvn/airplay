@@ -12,18 +12,18 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @ChannelHandler.Sharable
 public class JMuxerStreamHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> implements AirplayStream {
 
-    private static final Logger log = LogManager.getLogger(JMuxerStreamHandler.class);
-    private static final int THRESHOLD = 32 * 1024; // kb
-    private final Set<ChannelHandlerContext> clients = ConcurrentHashMap.newKeySet(10);
+    Set<ChannelHandlerContext> clients = new HashSet<>();
+    int THRESHOLD = 32 * 1024; // kb
+    Logger log = LogManager.getLogger(JMuxerStreamHandler.class);
+    ByteBuf send = ByteBufAllocator.DEFAULT.buffer();
 
-    private ByteBuf send = ByteBufAllocator.DEFAULT.buffer();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame msg) {
@@ -41,17 +41,18 @@ public class JMuxerStreamHandler extends SimpleChannelInboundHandler<BinaryWebSo
         log.info("WebSocket client disconnected: {}", ctx.channel().remoteAddress());
     }
 
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
-        ctx.close();
-    }
-
     private void sendData(ByteBuf message) {
-        ByteBuf copy = message.retainedDuplicate();
-        clients.forEach(client -> client.executor().execute(() -> client.writeAndFlush(new BinaryWebSocketFrame(copy))));
-
+        synchronized (clients) {
+            clients.forEach(client -> {
+                ByteBuf copy = message.retainedDuplicate();
+                client.writeAndFlush(new BinaryWebSocketFrame(copy))
+                        .addListener(future -> {
+                            if (!future.isSuccess()) {
+                                copy.release();
+                            }
+                        });
+            });
+        }
     }
 
     @Override
@@ -63,7 +64,6 @@ public class JMuxerStreamHandler extends SimpleChannelInboundHandler<BinaryWebSo
             this.send = ByteBufAllocator.DEFAULT.buffer();
         }
     }
-
 
     @Override
     public void onVideoFormat(VideoStreamInfo videoStreamInfo) {

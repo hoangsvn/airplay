@@ -30,20 +30,32 @@ public class JMuxerAudioHandler extends SimpleChannelInboundHandler<BinaryWebSoc
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
-        this.clients.add(ctx);
+        synchronized (clients) {
+            this.clients.add(ctx);
+        }
         log.info("WebSocket client connected: {}", ctx.channel().remoteAddress());
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        this.clients.remove(ctx);
+        synchronized (clients) {
+            this.clients.remove(ctx);
+        }
         log.info("WebSocket client disconnected: {}", ctx.channel().remoteAddress());
     }
 
     private void sendData(ByteBuf message) {
-        ByteBuf copy = message.retainedDuplicate();
-        clients.forEach(client -> client.executor().execute(() -> client.writeAndFlush(new BinaryWebSocketFrame(copy))));
-
+        synchronized (clients) {
+            clients.forEach(client -> {
+                ByteBuf copy = message.retainedDuplicate();
+                client.writeAndFlush(new BinaryWebSocketFrame(copy))
+                        .addListener(future -> {
+                            if (!future.isSuccess()) {
+                                copy.release();
+                            }
+                        });
+            });
+        }
     }
 
     @Override

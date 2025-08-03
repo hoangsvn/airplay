@@ -4,7 +4,7 @@
 
 - Run : `java -jar Air-0.0.1-SNAPSHOT.jar`
 - Open: `http://localhost:9000`
-- Image
+- Image : If you encounter an error, reconnect to Airplay.
   <img src="img/air.png" style="width: 100%;" />
 
 ### java-airplay-lib

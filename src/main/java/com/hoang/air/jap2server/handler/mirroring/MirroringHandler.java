@@ -54,7 +54,7 @@ public class MirroringHandler extends SimpleChannelInboundHandler<ByteBuf> {
                             log.debug("Unhandled payload type: {}", header.getPayloadType());
                         }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        log.debug("Exception MirroringHandler {}", e.getMessage());
                     }
                     payload.release();
                     payload = null;
