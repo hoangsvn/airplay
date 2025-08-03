@@ -1,7 +1,6 @@
 package com.hoang.air.runner;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -12,9 +11,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Component
+@Slf4j
 public class BrowserLauncher {
-
-    private static final Logger log = LogManager.getLogger(BrowserLauncher.class);
 
     @EventListener(ApplicationReadyEvent.class)
     public void launchBrowser() throws URISyntaxException, IOException {

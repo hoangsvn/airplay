@@ -1,5 +1,7 @@
 package com.hoang.air.jap2lib.fairplay;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -7,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
+@Slf4j
 public class FairPlayVideoDecryptor {
 
     private final byte[] aesKey;
@@ -61,6 +64,7 @@ public class FairPlayVideoDecryptor {
         byte[] hash1 = sha512Digest.digest();
 
         byte[] siv = ("AirPlayStreamIV" + streamConnectionID).getBytes(StandardCharsets.UTF_8);
+
         sha512Digest.update(siv);
         sha512Digest.update(eaesKey, 0, 16);
         byte[] hash2 = sha512Digest.digest();

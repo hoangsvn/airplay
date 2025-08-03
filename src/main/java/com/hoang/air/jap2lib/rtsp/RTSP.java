@@ -4,18 +4,17 @@ import com.dd.plist.BinaryPropertyListParser;
 import com.dd.plist.BinaryPropertyListWriter;
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
+import lombok.extern.slf4j.Slf4j;
 import net.i2p.crypto.eddsa.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+@Slf4j
 public class RTSP {
 
-    private static final Logger log = LoggerFactory.getLogger(RTSP.class);
 
     private String streamConnectionID;
     private byte[] encryptedAESKey;

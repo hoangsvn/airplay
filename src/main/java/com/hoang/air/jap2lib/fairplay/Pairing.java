@@ -3,14 +3,13 @@ package com.hoang.air.jap2lib.fairplay;
 import com.dd.plist.BinaryPropertyListWriter;
 import com.dd.plist.NSObject;
 import com.dd.plist.PropertyListParser;
+import lombok.extern.slf4j.Slf4j;
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.KeyPairGenerator;
 import net.i2p.crypto.eddsa.Utils;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.Curve25519KeyPair;
 
@@ -28,9 +27,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Arrays;
 
+@Slf4j
 public class Pairing {
 
-    private static final Logger log = LoggerFactory.getLogger(Pairing.class);
 
     private final KeyPair keyPair;
 

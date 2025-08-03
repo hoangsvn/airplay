@@ -1,8 +1,7 @@
 package com.hoang.air.jmdns;
 
 import com.hoang.air.jap2lib.AirInFo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.jmdns.JmmDNS;
 import javax.jmdns.ServiceInfo;
@@ -10,68 +9,67 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Slf4j
 public class AirPlayBonjour {
-
-    private static final Logger log = LoggerFactory.getLogger(AirPlayBonjour.class);
 
     private static final String AIRPLAY_SERVICE_TYPE = "._airplay._tcp.local";
     private static final String AIRTUNES_SERVICE_TYPE = "._raop._tcp.local";
 
-    private final AirInFo airInFo;
-    private final Thread airplay;
-    private final Thread airtunes;
-    private final JmmDNS jmmDNS;
-    private ServiceInfo airPlayService;
-    private ServiceInfo airTunesService;
+    private final AirInFo AirInfo;
+    private final Thread TCP_AIRPLAY;
+    private final Thread TCP_RAOP;
+    private final JmmDNS JmDNS;
+    private ServiceInfo mDns_AirPlay;
+    private ServiceInfo mDns_Raop;
 
 
     public AirPlayBonjour(AirInFo in) {
-        this.airInFo = in;
-        this.jmmDNS = JmmDNS.Factory.getInstance();
-        this.airplay = new Thread(() -> {
-            airPlayService = ServiceInfo.create(
-                    airInFo.getName().concat(AIRPLAY_SERVICE_TYPE),
-                    airInFo.getName(),
-                    airInFo.getAirPlayPort(),
+        this.AirInfo = in;
+        this.JmDNS = JmmDNS.Factory.getInstance();
+        this.TCP_AIRPLAY = new Thread(() -> {
+            mDns_AirPlay = ServiceInfo.create(
+                    AirInfo.getName().concat(AIRPLAY_SERVICE_TYPE),
+                    AirInfo.getName(),
+                    AirInfo.getAirPlayPort(),
                     0, 0,
                     airPlayMDNSProps());
             try {
-                jmmDNS.registerService(airPlayService);
-                log.info("Service is registered : {} port : {}", airInFo.getName().concat(AIRPLAY_SERVICE_TYPE), airInFo.getAirPlayPort());
+                JmDNS.registerService(mDns_AirPlay);
+                log.info("Service is registered : {} port : {}", AirInfo.getName().concat(AIRPLAY_SERVICE_TYPE), AirInfo.getAirPlayPort());
+                log.info("Service is HostNames : {}", String.join(" | ", JmDNS.getHostNames()));
             } catch (IOException e) {
                 log.error("Service IOException", e);
             }
-        }, "jmmDNS-airplay");
-        this.airtunes = new Thread(() -> {
-            String airTunesServerName = "010203040506@" + airInFo.getName();
-            airTunesService = ServiceInfo.create(
+        }, "tcp-airplay");
+        this.TCP_RAOP = new Thread(() -> {
+            String airTunesServerName = "010203040506@" + AirInfo.getName();
+            mDns_Raop = ServiceInfo.create(
                     airTunesServerName.concat(AIRTUNES_SERVICE_TYPE),
                     airTunesServerName,
-                    airInFo.getAirTunesPort(),
+                    AirInfo.getAirTunesPort(),
                     0, 0,
                     airTunesMDNSProps());
             try {
-                jmmDNS.registerService(airTunesService);
-                log.info("Service is registered : {} port: {}", airTunesServerName + AIRTUNES_SERVICE_TYPE, airInFo.getAirTunesPort());
+                JmDNS.registerService(mDns_Raop);
+                log.info("Service is registered : {} port: {}", airTunesServerName + AIRTUNES_SERVICE_TYPE, AirInfo.getAirTunesPort());
             } catch (IOException e) {
                 log.error("Service IOException", e);
             }
 
-        }, "jmmDNS-tunes");
+        }, "tcp-raop");
     }
 
 
     public void JmmDNSRegister() {
-        airplay.start();
-        airtunes.start();
+        TCP_AIRPLAY.start();
+        TCP_RAOP.start();
     }
 
     public void JmmDNSUnRegister() {
-        this.jmmDNS.unregisterService(airPlayService);
-        log.info("{} service is unregistered", airPlayService.getName());
-        this.jmmDNS.unregisterService(airTunesService);
-        log.info("{} service is unregistered", airTunesService.getName());
+        this.JmDNS.unregisterService(mDns_AirPlay);
+        log.info("{} service is unregistered", mDns_AirPlay.getName());
+        this.JmDNS.unregisterService(mDns_Raop);
+        log.info("{} service is unregistered", mDns_Raop.getName());
     }
 
     private Map<String, String> airPlayMDNSProps() {

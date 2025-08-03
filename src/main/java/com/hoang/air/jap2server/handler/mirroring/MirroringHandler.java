@@ -7,13 +7,12 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ChannelHandler.Sharable
 public class MirroringHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-    private static final Logger log = LoggerFactory.getLogger(MirroringHandler.class);
     private final ByteBuf headerBuf = ByteBufAllocator.DEFAULT.ioBuffer(128, 128);
     private final AirPlay airPlay;
     private final AirplayStream video;

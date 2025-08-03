@@ -4,12 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AudioControlHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
-    private static final Logger log = LoggerFactory.getLogger(AudioControlHandler.class);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket msg) {

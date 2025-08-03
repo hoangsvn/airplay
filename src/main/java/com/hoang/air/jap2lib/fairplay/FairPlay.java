@@ -1,17 +1,16 @@
 package com.hoang.air.jap2lib.fairplay;
 
 import com.hoang.air.jap2lib.sec.OmgHax;
+import lombok.extern.slf4j.Slf4j;
 import net.i2p.crypto.eddsa.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+@Slf4j
 public class FairPlay {
 
-    private static final Logger log = LoggerFactory.getLogger(FairPlay.class);
 
     private final OmgHax omgHax = new OmgHax();
 

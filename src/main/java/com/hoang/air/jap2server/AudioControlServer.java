@@ -5,14 +5,13 @@ import com.hoang.air.jap2server.handler.audio.AudioControlHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.DatagramChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 
+@Slf4j
 public class AudioControlServer implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(AudioControlServer.class);
 
     private final Object monitor;
 

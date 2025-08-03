@@ -34,6 +34,10 @@ dependencies {
     implementation 'io.netty:netty-codec-http:4.1.123.Final'
     implementation 'io.netty:netty-transport-native-epoll:4.1.123.Final'
     implementation 'io.netty:netty-handler:4.1.123.Final'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
 }
 
 

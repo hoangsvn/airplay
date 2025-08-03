@@ -12,7 +12,9 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.rtsp.RtspResponseStatuses;
 import io.netty.handler.codec.rtsp.RtspVersions;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class ControlHandler extends ChannelInboundHandlerAdapter {
 
 

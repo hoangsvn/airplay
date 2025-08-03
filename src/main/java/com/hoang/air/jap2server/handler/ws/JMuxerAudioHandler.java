@@ -9,17 +9,15 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+@Slf4j
 @ChannelHandler.Sharable
 public class JMuxerAudioHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> implements AirplayAudio {
 
-    private static final Logger log = LogManager.getLogger(JMuxerAudioHandler.class);
     private static final int THRESHOLD = 32 * 1024;
     private final Set<ChannelHandlerContext> clients = ConcurrentHashMap.newKeySet(10);
     private ByteBuf send = ByteBufAllocator.DEFAULT.buffer();

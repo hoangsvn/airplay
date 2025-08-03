@@ -9,19 +9,17 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Slf4j
 @ChannelHandler.Sharable
 public class JMuxerStreamHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> implements AirplayStream {
 
     Set<ChannelHandlerContext> clients = new HashSet<>();
     int THRESHOLD = 32 * 1024; // kb
-    Logger log = LogManager.getLogger(JMuxerStreamHandler.class);
     ByteBuf send = ByteBufAllocator.DEFAULT.buffer();
 
 

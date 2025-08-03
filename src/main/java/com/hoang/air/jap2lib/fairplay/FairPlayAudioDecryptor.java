@@ -1,11 +1,14 @@
 package com.hoang.air.jap2lib.fairplay;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
+@Slf4j
 public class FairPlayAudioDecryptor {
 
     private final byte[] aesIV;

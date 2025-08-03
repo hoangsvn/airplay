@@ -7,15 +7,12 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.SocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 
+@Slf4j
 public class MirroringReceiver implements Runnable {
-
-    private static final Logger log = LoggerFactory.getLogger(MirroringReceiver.class);
-
     private final int port;
     private final MirroringHandler mirroring;
     ChannelFuture channelFuture;
