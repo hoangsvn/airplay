@@ -1,13 +1,13 @@
 package com.hoang.air.jap2server;
 
 
+import com.hoang.air.handler.control.FairPlayHandler;
+import com.hoang.air.handler.control.HeartBeatHandler;
+import com.hoang.air.handler.control.PairingHandler;
+import com.hoang.air.handler.control.RTSPHandler;
+import com.hoang.air.handler.session.SessionManager;
 import com.hoang.air.jap2lib.AirInFo;
 import com.hoang.air.jap2lib.utils.Nio;
-import com.hoang.air.jap2server.handler.control.FairPlayHandler;
-import com.hoang.air.jap2server.handler.control.HeartBeatHandler;
-import com.hoang.air.jap2server.handler.control.PairingHandler;
-import com.hoang.air.jap2server.handler.control.RTSPHandler;
-import com.hoang.air.jap2server.handler.session.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;

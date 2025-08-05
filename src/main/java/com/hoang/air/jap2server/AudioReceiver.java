@@ -1,8 +1,8 @@
 package com.hoang.air.jap2server;
 
 
+import com.hoang.air.handler.audio.AudioReceiverHandler;
 import com.hoang.air.jap2lib.utils.Nio;
-import com.hoang.air.jap2server.handler.audio.AudioHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.DatagramChannel;
@@ -14,13 +14,13 @@ import java.net.InetSocketAddress;
 public class AudioReceiver implements Runnable {
 
 
-    private final AudioHandler audioHandler;
+    private final AudioReceiverHandler audioReceiverHandler;
     private final Object monitor;
 
     private int port;
 
-    public AudioReceiver(AudioHandler audioHandler, Object monitor) {
-        this.audioHandler = audioHandler;
+    public AudioReceiver(AudioReceiverHandler audioReceiverHandler, Object monitor) {
+        this.audioReceiverHandler = audioReceiverHandler;
         this.monitor = monitor;
     }
 
@@ -36,7 +36,7 @@ public class AudioReceiver implements Runnable {
                     .handler(new ChannelInitializer<DatagramChannel>() {
                         @Override
                         public void initChannel(final DatagramChannel ch) {
-                            ch.pipeline().addLast(audioHandler);
+                            ch.pipeline().addLast(audioReceiverHandler);
                         }
                     });
             var channelFuture = bootstrap.bind(0).sync();

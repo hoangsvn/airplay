@@ -1,7 +1,7 @@
 package com.hoang.air.jap2server;
 
+import com.hoang.air.handler.audio.AudioControlHandler;
 import com.hoang.air.jap2lib.utils.Nio;
-import com.hoang.air.jap2server.handler.audio.AudioControlHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.DatagramChannel;
@@ -12,9 +12,7 @@ import java.net.InetSocketAddress;
 @Slf4j
 public class AudioControlServer implements Runnable {
 
-
     private final Object monitor;
-
     private int port;
 
     public AudioControlServer(Object monitor) {

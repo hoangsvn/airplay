@@ -47,16 +47,17 @@
 <script>
 
     window.onload = function () {
-        var socketURL = 'ws://localhost:8081/video';
+        var socketURL = 'ws://localhost:9001/video';
         if (jmuxer) {
             jmuxer.destroy();
         }
         var jmuxer = new JMuxer({
             node: 'player',
-            fps: 50,
+            fps: 60,
             flushingTime: 1,
             mode: 'video',
-            debug: true
+            debug: false,
+            clearBuffer: true
         });
 
         var ws = new WebSocket(socketURL);

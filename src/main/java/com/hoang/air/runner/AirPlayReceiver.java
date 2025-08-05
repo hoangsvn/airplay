@@ -1,13 +1,15 @@
 package com.hoang.air.runner;
 
 
+import com.hoang.air.handler.control.RTSPHandler;
+import com.hoang.air.handler.display.HttpStaticFile;
+import com.hoang.air.handler.display.JMuxerAudioStream;
+import com.hoang.air.handler.display.JMuxerVideoStream;
+import com.hoang.air.handler.session.SessionManager;
 import com.hoang.air.jap2lib.AirInFo;
 import com.hoang.air.jap2server.ControlServer;
-import com.hoang.air.jap2server.handler.control.RTSPHandler;
-import com.hoang.air.jap2server.handler.session.SessionManager;
-import com.hoang.air.jap2server.handler.ws.JMuxerAudioHandler;
-import com.hoang.air.jap2server.handler.ws.JMuxerStreamHandler;
-import com.hoang.air.jap2server.handler.ws.WebSocketServer;
+import com.hoang.air.jap2server.HttpStaticServer;
+import com.hoang.air.jap2server.WebSocketServer;
 import com.hoang.air.jmdns.AirPlayBonjour;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -23,23 +25,23 @@ public class AirPlayReceiver {
     @PostConstruct
     public void init() {
 
-        AirInFo airInFo = new AirInFo("HoangPC", 8088, 8080, "01:02:03:04:05:06");
-        bonJour = new AirPlayBonjour(airInFo);
+        AirInFo AirInfo = new AirInFo("AirPlay-".concat(System.getProperty("user.name")), 9100, 9101, "01:02:03:04:05:06");
+        bonJour = new AirPlayBonjour(AirInfo);
 
-        SessionManager seManager = new SessionManager();
-        JMuxerStreamHandler video = new JMuxerStreamHandler();
-        JMuxerAudioHandler audio = new JMuxerAudioHandler();
-        RTSPHandler rtspHandler = new RTSPHandler(airInFo, seManager, video, audio);
+        SessionManager managerS = new SessionManager();
+        JMuxerVideoStream video = new JMuxerVideoStream();
+        JMuxerAudioStream audio = new JMuxerAudioStream();
 
-        Thread airPlay = new Thread(new ControlServer(airInFo, seManager, rtspHandler), "air");
-        Thread tvideo = new Thread(new WebSocketServer(8081, "/video", video), "video");
-        Thread taudio = new Thread(new WebSocketServer(8082, "/audio", audio), "audio");
+        HttpStaticFile http = new HttpStaticFile("static");
+
+        new Thread(new ControlServer(AirInfo, managerS, new RTSPHandler(AirInfo, managerS, video, audio)), "air").start();
+        new Thread(new WebSocketServer(9001, "/video", video), "video").start();
+        new Thread(new WebSocketServer(9002, "/audio", audio), "audio").start();
+        new Thread(new HttpStaticServer(9000, http), "http").start();
+
         try {
             bonJour.JmmDNSRegister();
-            tvideo.start();
-            taudio.start();
-            airPlay.start();
-            log.info("AirPlayReceiver started successfully");
+            log.info("AirPlayReceiver started successfully ");
         } catch (Exception e) {
             log.info("AirPlayReceiver failed to start");
         }
