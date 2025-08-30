@@ -16,13 +16,14 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.rtsp.RtspDecoder;
 import io.netty.handler.codec.rtsp.RtspEncoder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 
-@Slf4j
 public class ControlServer implements Runnable {
 
+    private static final Logger log = LoggerFactory.getLogger(ControlServer.class);
 
     private final PairingHandler pairingHandler;
     private final FairPlayHandler fairPlayHandler;

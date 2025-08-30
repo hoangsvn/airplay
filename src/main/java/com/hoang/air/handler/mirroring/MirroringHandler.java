@@ -8,10 +8,14 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+
 @ChannelHandler.Sharable
 public class MirroringHandler extends SimpleChannelInboundHandler<ByteBuf> {
+    private static final Logger log = LoggerFactory.getLogger(MirroringHandler.class);
+
 
     private final ByteBuf headerBuf = ByteBufAllocator.DEFAULT.ioBuffer(128, 128);
     private final AirPlay airPlay;

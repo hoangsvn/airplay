@@ -1,6 +1,7 @@
 package com.hoang.air.jap2lib.fairplay;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -9,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-@Slf4j
-public class FairPlayVideoDecryptor {
 
+public class FairPlayVideoDecryptor {
+    private static final Logger log = LoggerFactory.getLogger(FairPlayVideoDecryptor.class);
     private final byte[] aesKey;
     private final byte[] sharedSecret;
     private final String streamConnectionID;

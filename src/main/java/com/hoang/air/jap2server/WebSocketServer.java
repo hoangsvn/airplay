@@ -8,12 +8,14 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 
-@Slf4j
+
 public class WebSocketServer implements Runnable {
+    private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
 
     private final int port;
     private final SimpleChannelInboundHandler<?> handler;
@@ -24,7 +26,7 @@ public class WebSocketServer implements Runnable {
         this.handler = handler;
         this.path = path;
     }
-    
+
     @Override
     public void run() {
         ServerBootstrap webSocket = new ServerBootstrap();

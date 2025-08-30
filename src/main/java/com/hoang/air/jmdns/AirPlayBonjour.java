@@ -1,7 +1,8 @@
 package com.hoang.air.jmdns;
 
 import com.hoang.air.jap2lib.AirInFo;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jmdns.JmmDNS;
 import javax.jmdns.ServiceInfo;
@@ -9,8 +10,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
+
 public class AirPlayBonjour {
+    private static final Logger log = LoggerFactory.getLogger(AirPlayBonjour.class);
 
     private static final String AIRPLAY_SERVICE_TYPE = "._airplay._tcp.local";
     private static final String AIRTUNES_SERVICE_TYPE = "._raop._tcp.local";

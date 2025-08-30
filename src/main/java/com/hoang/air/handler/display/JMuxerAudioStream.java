@@ -1,6 +1,7 @@
 package com.hoang.air.handler.display;
 
 
+import com.hoang.air.handler.audio.AudioControlHandler;
 import com.hoang.air.jap2lib.AirplayAudio;
 import com.hoang.air.jap2lib.rtsp.AudioStreamInfo;
 import io.netty.channel.ChannelHandler;
@@ -8,10 +9,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 @ChannelHandler.Sharable
 public class JMuxerAudioStream extends SimpleChannelInboundHandler<BinaryWebSocketFrame> implements AirplayAudio {
+    private static final Logger log = LoggerFactory.getLogger(JMuxerAudioStream.class);
 
 
     @Override

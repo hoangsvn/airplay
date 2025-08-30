@@ -3,6 +3,8 @@ package com.hoang.air.handler.display;
 import com.hoang.air.jap2lib.AirplayStream;
 import com.hoang.air.jap2lib.rtsp.VideoStreamInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.log.LogLevel;
 import uk.co.caprica.vlcj.log.NativeLog;
@@ -19,6 +21,8 @@ import java.io.PipedOutputStream;
 
 @Slf4j
 public class JVLCVideoSteam implements AirplayStream {
+    private static final Logger log = LoggerFactory.getLogger(JVLCVideoSteam.class);
+
     private final PipedOutputStream output;
     private EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private JFrame f;

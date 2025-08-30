@@ -1,6 +1,7 @@
 package com.hoang.air.jap2lib.fairplay;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -8,9 +9,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-@Slf4j
 public class FairPlayAudioDecryptor {
-
+    private static final Logger log = LoggerFactory.getLogger(FairPlayAudioDecryptor.class);
     private final byte[] aesIV;
     private final byte[] eaesKey;
 

@@ -22,12 +22,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jmdns:jmdns:3.5.1'
     implementation 'net.i2p.crypto:eddsa:0.3.0'
     implementation 'org.whispersystems:curve25519-java:0.5.0'
     implementation 'com.googlecode.plist:dd-plist:1.23'
-//    implementation 'io.netty:netty-all:4.1.77.Final'
     implementation 'io.netty:netty-transport:4.1.123.Final'
     implementation 'io.netty:netty-common:4.1.123.Final'
     implementation 'io.netty:netty-buffer:4.1.123.Final'
@@ -38,9 +36,8 @@ dependencies {
     implementation 'net.java.dev.jna:jna:5.11.0'
     implementation 'net.java.dev.jna:jna-platform:5.11.0'
     implementation 'uk.co.caprica:vlcj:4.7.2'
-
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.projectlombok:lombok:1.18.30'
+//    compileOnly 'org.projectlombok:lombok:1.18.30'
 
 }
 
